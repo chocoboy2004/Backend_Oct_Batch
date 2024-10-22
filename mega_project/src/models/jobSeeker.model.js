@@ -1,5 +1,4 @@
 import mongoose, { mongo, Schema } from "mongoose"
-import { type } from "os"
 
 const jobSeekerSchema = new Schema({
     name: {
@@ -37,12 +36,44 @@ const jobSeekerSchema = new Schema({
         type: String,
         required: true
     },
+    password: {
+        type: String,
+        required: true,
+        minLength: 8,
+        maxLength: 16
+    },
     skills: [
         {
             type: String
         }
     ]
 })
+
+jobSeekerSchema.pre("save", async function(next) {
+    if (this.isModified("password")) {
+        this.password = await bcrypt.hash(this.password, 10)
+    } else {
+        next()
+    }
+})
+
+jobSeekerSchema.methods.comparePassword = async function(password) {
+    return await bcrypt.compare(password, this.password)
+}
+
+jobSeekerSchema.methods.generateAccessToken = function() {
+    return jwt.sign(
+        {
+            _id: this._id,   // Payload --- data
+            email: this.email,
+            phone_no: this.phone_no
+        },
+        process.env.ACCESS_TOKEN_SECRET,
+        {
+            expiresIn: process.env.ACCESS_TOKEN_EXPIRY
+        }
+    )
+}
 
 const JobSeeker = mongoose.model("JobSeeker", jobSeekerSchema)
 
