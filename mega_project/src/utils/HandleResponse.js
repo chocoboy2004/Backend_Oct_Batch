@@ -7,6 +7,4 @@ class HandleResponse {
     }
 }
 
-const handleResponse = new HandleResponse()
-
-export default handleResponse
+export default HandleResponse

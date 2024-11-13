@@ -7,6 +7,4 @@ class HandleError {
     }
 }
 
-const handleError = new HandleError()
-
-export default handleError
+export default HandleError

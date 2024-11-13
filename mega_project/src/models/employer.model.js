@@ -9,17 +9,18 @@ const employerSchema = new Schema({
     },
     email: {
         type: String,
-        required: true
+        required: true,
+        index: true
     },
     phone_no: {
         type: Number,
         required: true,
         maxLength: 10,
-        minLength: 10
+        minLength: 10,
+        index: true
     },
     website: {
-        type: String,
-        required: true
+        type: String
     },
     address: {
         type: String,
@@ -30,13 +31,17 @@ const employerSchema = new Schema({
         enum: ["company", "individual"],
         required: true
     },
+    userType: {
+        type: String,
+        default: "employer"
+    },
     password: {
         type: String,
         required: true,
         minLength: 8,
         maxLength: 16
     }
-})
+}, { timestamps: true })
 
 employerSchema.pre("save", async function(next) {
     if (this.isModified("password")) {
