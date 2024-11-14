@@ -184,8 +184,40 @@ const login = async (req, res) => {
     )
 }
 
+const logout = async (req, res) => {
+    if (!req?.employeer) {
+        return res
+        .status(400)
+        .json(
+            new HandleError(400, "You haven't logged in yet!")
+        )
+    }
+
+    const options = {
+        httpOnly: true,
+        secure: true
+    }
+
+    return res
+    .status(200)
+    .clearCookie("accessToken", options)
+    .json(
+        new HandleResponse(200, {}, "Logged out successfully!")
+    )
+}
+
+const currentEmployee = async (req, res) => {
+    return res
+    .status(200)
+    .json(
+        new HandleResponse(200, req?.employeer, "Current employeer fetched successfully!")
+    )
+}
+
 export {
     signup,
-    login
+    login,
+    logout,
+    currentEmployee
 }
 
