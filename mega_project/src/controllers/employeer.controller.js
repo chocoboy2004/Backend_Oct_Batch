@@ -1,6 +1,7 @@
 import HandleError from "../utils/HandleError.js";
 import HandleResponse from "../utils/HandleResponse.js";
 import Employer from "../models/employer.model.js";
+import bcrypt from "bcrypt"
 
 const signup = async (req, res) => {  // req --> data, res ---> ERROR || Response
     // 1. credentials required
@@ -214,10 +215,145 @@ const currentEmployee = async (req, res) => {
     )
 }
 
+const updateDetails = async (req, res) => {
+    const { name, email, phone_no, website } = req.body
+
+    if (!name && !email && !phone_no && !website && !password) {
+        return res
+        .status(400)
+        .json(
+            new HandleError(400, "You have to provide at least 1 field!")
+        )
+    }
+
+    if (name && name.trim() === "") {
+        return res
+        .status(400)
+        .json(
+            new HandleError(400, "Name should not be empty!")
+        )
+    }
+
+    if (email && !/\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b/.test(email?.trim())) {
+        return res
+        .status(400)
+        .json(
+            new HandleError(400, "Invalid E-Mail")
+        )
+    }
+
+    if (phone_no && phone_no?.trim()?.length !== 10) {
+        return res
+        .status(400)
+        .json(
+            new HandleError(400, "Invalid Phone Number!")
+        )
+    }
+
+    if (website && !/[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/.test(website?.trim())) {
+        return res
+        .status(400)
+        .json(
+            new HandleError(400, "Invalid Website URL")
+        )
+    }
+
+    if (password && (password?.trim()?.length < 8 ||  password?.trim()?.length > 16)) {
+        return res
+        .status(400)
+        .json(
+            new HandleError(400, "Invalid password length!")
+        )
+    }
+
+    const employeerData = await Employer.findById(req.employeer._id)
+
+    employeerData.name = name?.trim() === "" ? employeerData.name : name?.trim()
+    employeerData.email = email?.trim() === "" ? employeerData.email : email?.trim()
+    employeerData.phone_no = phone_no?.trim() === "" ? employeerData.phone_no : phone_no?.trim()
+    employeerData.website = website?.trim() === "" ? employeerData.website : website?.trim()
+    // employeerData.password = password?.trim() === "" ? employeerData.password : password?.trim()
+
+    await employeerData.save({ validateBeforeSave: false })
+
+    const updatedData = await Employer.findById(req.employeer._id)
+
+    return res
+    .status(200)
+    .json(
+        new HandleResponse(
+            200,
+            updatedData,
+            "Details updated successfully!"
+        )
+    )
+
+    // db.data.updateOne({ username: "admin" }, { $set: { age: "", password: "" } })
+
+    return res
+    .status(200)
+    .json(
+        new HandleResponse(
+            200,
+            updatedData,
+            "Details updated successfully!!"
+        )
+    )
+}
+
+const updatePassword = async (req, res) => {
+    const {password} = req.body
+
+    if (!password) {
+        return res
+        .status(400)
+        .json(
+            new HandleError(400, "Password required!")
+        )
+    }
+
+    if (password?.trim() === "") {
+        return res
+        .status(400)
+        .json(
+            new HandleError(400, "Password should not be empty!")
+        )
+    }
+    if (password?.trim().length < 8 || password?.trim().length > 16) {
+        return res
+        .status(400)
+        .json(
+            new HandleError(400, "Password should be 8 to 16 digits long!")
+        )
+    }
+
+    const encryptedPassword = await bcrypt.hash(password?.trim(), 10)
+
+    const data = await Employer.findByIdAndUpdate(
+        req.employeer._id,
+        {
+            $set: {
+                password: encryptedPassword
+            }
+        },
+        {
+            new: true
+        }
+    )
+
+    return res
+    .status(200)
+    .json(
+        new HandleResponse(200, data, "Password updated successfully!")
+    )
+ }
+
 export {
     signup,
     login,
     logout,
-    currentEmployee
+    currentEmployee,
+    updateDetails,
+    updatePassword
 }
 

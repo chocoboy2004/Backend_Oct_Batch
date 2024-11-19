@@ -14,9 +14,11 @@ app.use(cookieParser())
 
 
 import employeerRouter from "./routes/employeer.router.js"
+import jobSeekerRouter from "./routes/jobSeeker.route.js"
 
 
 app.use("/api/v1/employeer", employeerRouter)
+app.use("/api/v1/jobseeker", jobSeekerRouter)
 
 
 
