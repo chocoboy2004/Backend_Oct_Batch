@@ -1,6 +1,11 @@
-import mongoose, {Schema} from "mongoose"
+import mongoose, { Schema } from "mongoose"
 
 const jobSchema = new Schema({
+    createdBy: {
+        type: Schema.Types.ObjectId,
+        ref: "Employer",
+        required: true
+    },
     title: {
         type: String,
         required: true
@@ -13,11 +18,10 @@ const jobSchema = new Schema({
         type: Number,
         required: true
     },
-    skills: [
-        {
-            type: String
-        }
-    ],
+    skills:
+    {
+        type: String
+    },
     job_location: {
         type: String,
         enum: ["remote", "hybrid", "onsite"]

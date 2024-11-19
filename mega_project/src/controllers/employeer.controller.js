@@ -348,6 +348,14 @@ const updatePassword = async (req, res) => {
     )
  }
 
+ const deleteAccount = async (req, res) => {
+    /*
+    1. take _id from authentication
+    2. delete document from the database
+    4. return response
+    */
+}
+
 export {
     signup,
     login,

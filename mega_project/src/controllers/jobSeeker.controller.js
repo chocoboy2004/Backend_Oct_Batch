@@ -100,6 +100,122 @@ const signup = async (req, res) => {
     )
 }
 
+const login = async (req, res) => {
+    // 1. take credentials from the front-end
+    // 2. sanitize all data
+    // 3. check document is present inside the database or not.
+    // 4. if not, just throw an error
+    // 5. otherwise perform login operation
+    // 6. generate accessToken
+    // 7. store token into cookies
+    // 8. return response
+}
+
+const logout = async (req, res) => {
+    /*
+    1. take _id from authentication
+    2. remove accessToken from cookies
+    3. return response
+    */
+}
+
+const updateName = async (req, res) => {
+    /*
+    1. take new name from the frontend
+    2. take _id from authentication
+    3. update the name in the database
+    4. return response
+    */
+}
+
+const updateEmail = async (req, res) => {
+    /*
+    1. take new email from the frontend
+    2. take _id from authentication
+    3. update the email in the database
+    4. return response
+    */
+}
+
+const updatePhoneNo = async (req, res) => {
+    /*
+    1. take new phone_no from the frontend
+    2. take _id from authentication
+    3. update the phone_no in the database
+    4. return response
+    */
+}
+
+const updateResume = async (req, res) => {
+    /*
+    1. take new resume from the frontend
+    2. take _id from authentication
+    3. update the resume in the database
+    4. return response
+    */
+}
+
+const updateEducation = async (req, res) => {
+    /*
+    1. take new education from the frontend
+    2. take _id from authentication
+    3. update the education in the database
+    4. return response
+    */
+}
+
+const updateExperience = async (req, res) => {
+    /*
+    1. take new experience from the frontend
+    2. take _id from authentication
+    3. update the experience in the database
+    4. return response
+    */
+}
+
+const updateLocation = async (req, res) => {
+    /*
+    1. take new location from the frontend
+    2. take _id from authentication
+    3. update the location in the database
+    4. return response
+    */
+}
+
+const updateSkills = async (req, res) => {
+    /*
+    1. take new skills from the frontend
+    2. take _id from authentication
+    3. update the skills in the database
+    4. return response
+    */
+}
+
+const updatePassword = async (req, res) => {
+    /*
+    1. take new password from the frontend
+    2. take _id from authentication
+    3. update the password in the database
+    4. return response
+    */
+}
+
+const currentJobSeeker = async (req, res) => {
+    /*
+    1. take _id from authentication
+    2. fetch document using _id
+    3. return response
+    */
+}
+
+const deleteAccount = async (req, res) => {
+    /*
+    1. take _id from authentication
+    2. delete document from the database
+    4. return response
+    */
+}
+
 export {
     signup
 }

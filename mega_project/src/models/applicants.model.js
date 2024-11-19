@@ -5,6 +5,11 @@ const applicantSchema = new Schema({
         type: String,
         required: true
     },
+    applicant_id: {
+        type: Schema.Types.ObjectId,
+        ref: "JobSeeker",
+        required: true
+    },
     phone_no: {
         type: Number,
         required: true

@@ -44,11 +44,9 @@ const jobSeekerSchema = new Schema({
         minLength: 8,
         maxLength: 16
     },
-    skills: [
-        {
-            type: String
-        }
-    ]
+    skills: {
+        type: String
+    }
 })
 
 jobSeekerSchema.pre("save", async function(next) {
